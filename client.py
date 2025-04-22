@@ -57,3 +57,18 @@ with tab1:
             with st.spinner("Processing document..."):
                 result = call_mcp_tool("parse_file", {"file_path": file_path})
 
+
+                if result is None:
+                    st.error("Failed to process document. Check server connection.")
+                
+                elif isinstance(result, str):
+                    # If result is a string, it's either the document text or an error 
+                    st.session_state['document_text'] = result
+                    st.success(f"Document processed successfuly!")
+                    st.info(f"Document contains {len(result.split())} words.")
+
+
+                    # Show a preview
+                    with st.expander("Document Preview"):
+                        st.text(result[:1000] + ("..." if len(result) > 1000 else "")) 
+
