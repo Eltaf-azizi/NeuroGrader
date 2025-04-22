@@ -1,5 +1,5 @@
+from numpy import delete
 import streamlit as st
-import requests
 import json
 import os
 import tempfile
@@ -43,7 +43,7 @@ with tab1:
 
     if uploaded_file is not None:
         #save the uploaded file temporarily
-        with tempfile.NamedTemporaryFile(delete-False, suffix=os.path.splitext(uploaded_file.name)[1]) as tmp_file:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(uploaded_file.name)[1]) as tmp_file:
             tmp_file.write(uploaded_file.getvalue())
             file_path = tmp_file.name
 
@@ -71,4 +71,25 @@ with tab1:
                     # Show a preview
                     with st.expander("Document Preview"):
                         st.text(result[:1000] + ("..." if len(result) > 1000 else "")) 
+
+                else:
+                    # If result is a dict, might be error information
+                    st.session_state['document_text'] = str(result)
+                    st.success(f"Document processed!")
+
+
+                # Show a preview
+                with st.expander("Document Preview"):
+                    st.json(result)
+
+
+
+
+# Tab 2: Grade Assignment
+with tab2:
+    st.header("Gradign configuration")
+
+
+    # Rubic input
+    st.subheader("Grading Rubric")
 
