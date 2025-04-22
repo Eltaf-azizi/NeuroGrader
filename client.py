@@ -38,3 +38,22 @@ with tab1:
 
     # File upload
     uploaded_file = st.file_uploader("Choose a file", type=['pdf', 'docx']) 
+
+
+
+    if uploaded_file is not None:
+        #save the uploaded file temporarily
+        with tempfile.NamedTemporaryFile(delete-False, suffix=os.path.splitext(uploaded_file.name)[1]) as tmp_file:
+            tmp_file.write(uploaded_file.getvalue())
+            file_path = tmp_file.name
+
+
+        st.session_state['file_path'] = file_path
+        st.session_state['file_name'] = uploaded_file.name
+
+
+        # Parse the document
+        if st.button("Process Document"):
+            with st.spinner("Processing document..."):
+                result = call_mcp_tool("parse_file", {"file_path": file_path})
+
