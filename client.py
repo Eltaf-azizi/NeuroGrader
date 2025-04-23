@@ -205,3 +205,17 @@ with tab3:
                         st.info(f"Moderate Similarity ({similarity}%): [{url}]({url})")
                     else:
                         st.success(f"Low Similarity ({similarity}%): [{url}]({url})")
+
+        
+
+        # Export options
+        st.subheader("Export Options")
+        if st.button("Export to PDF"):
+            st.info("PDF export functionality would go here")
+
+
+        if st.button("Save to Database"):
+            st.info("Database save functionality would go here")
+
+    else:
+        st.info("No grading results available. Please upload and grab an assignment first.")
