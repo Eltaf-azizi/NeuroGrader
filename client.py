@@ -183,3 +183,25 @@ with tab3:
                 st.markdown(st.session_state['feedback'])
             else:
                 st.st.warning("Feedback is not available. There might have been an error generating feedback.")
+
+        
+
+        # Display plagiarism results if available
+        if 'plagiarism_results' in st.session_state and st.session_state['plagiarism_results']:
+            st.subheader("Plagiarism Check")
+            results = st.session_state['plagiarism_results']
+
+            if results is None:
+                st.warning("Plagiarism check results are not available. There might have been an error during the checking")
+            elif 'error' in results:
+                st.error(f"Plagiarism check error: {results['error']}")
+            
+            else:
+                st.markdown("**Similarity matches found: **")
+                for url, similarity in results.items():
+                    if similarity > 70:
+                        st.warning(f"High Similarity ({similarity}%): [{url}]({url})")
+                    elif similarity > 40:
+                        st.info(f"Moderate Similarity ({similarity}%): [{url}]({url})")
+                    else:
+                        st.success(f"Low Similarity ({similarity}%): [{url}]({url})")
