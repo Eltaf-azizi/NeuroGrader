@@ -146,4 +146,21 @@ with tab2:
                 st.warning("Feedback generation failed or returned no results.")
 
 
+            if grade_results is not None or feedback is not None:
+                st.success("Grading completed!")
+                st.balloons()
+            
+            else:
+                st.error("Grading process ecountered errors. Please check your server connection and API settings.")
+
+
+
+
+# Tab 3: Results
+with tab3:
+    st.header("Grading Results")
+
+    if all(k in st.session_state for k in ['file_name', 'grade_results', 'feedback']):
+        st.subheader(f"Results for: {st.session_state['file_name']}")
+
 
