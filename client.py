@@ -92,4 +92,22 @@ with tab2:
 
     # Rubic input
     st.subheader("Grading Rubric")
+    rubric = st.text_area(
+        "Enter your grading rubric here: ",
+        height=200,
+        help =  "Specify the criteria on which the assignment should be graded",
+        value = """Content (40%): The assignment should demonstrate a thorough understanding of the topic.
+                Structure (20%): The assignment should be well-organized with a clear introduction, body, and conclusion.
+                Analysis (30%): The assignment should include critical analusis backed by evidence.
+                Grammar & Style (10%): The assignment should be free of grammatical errors and use appropriate academic language."""
+    )
+
+
+
+    # Plagiarism check option
+    check_plagiarism_option = st.checkbox("Check for plagiarism", value=True)
+
+    if 'document_text' in st.session_state and st.button("Grade Assignment"):
+        # Store rubric in session
+        st.session_state['rubric'] = rubric
 
