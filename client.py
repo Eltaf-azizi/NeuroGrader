@@ -164,3 +164,22 @@ with tab3:
         st.subheader(f"Results for: {st.session_state['file_name']}")
 
 
+        # Display grade
+        if 'grade_results' in st.session_state:
+            if st.session_state['grade_results'] is not None:
+                grade = st.session_state['grade_results'].get('grade', 'Not Available')
+                st.metric("Grade", grade)
+
+            else:
+                st.warning("Grade information not available. There might have been an error during grading")
+                st.metric("Grade", "Not available")
+
+
+        
+        # Display feedback
+        if 'feedback' in st.session_state:
+            if st.session_state['feedback'] is not None:
+                st.subheader("Feedback")
+                st.markdown(st.session_state['feedback'])
+            else:
+                st.st.warning("Feedback is not available. There might have been an error generating feedback.")
