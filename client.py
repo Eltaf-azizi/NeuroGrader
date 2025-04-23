@@ -111,3 +111,22 @@ with tab2:
         # Store rubric in session
         st.session_state['rubric'] = rubric
 
+
+        with st.spinner("Grading for progress..."):
+            # Optional plagiarism check
+            if check_plagiarism_option:
+                st.info("Checking for plagiarism...")
+                plagiarism_results = call_mcp_tool("check_plagiarism", {"text": st.session_state['document_text']})
+                st.session_state['plagiarism_results'] = plagiarism_results
+                if plagiarism_results is None:
+                    st.warning("Plagiarism check failed or returned no results.")
+
+
+            
+            #Generate grade
+            st.info("Generating grade...")
+            grade_results = call_mcp_tool("grade_text", {
+                "text": st.session_state['document_text'],
+                "rubric": rubric
+            })
+
