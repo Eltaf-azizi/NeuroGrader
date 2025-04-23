@@ -129,4 +129,21 @@ with tab2:
                 "text": st.session_state['document_text'],
                 "rubric": rubric
             })
+            st.session_state['grade_results'] = grade_results
+
+            if grade_results is None:
+                st.warning("Grade generation failed or returned no results.")
+
+            
+            # Generate feedback
+            st.info("Generating feedback...")
+            feedback = call_mcp_tool("generating_feedback", {
+                "text": st.session_state['document_text'],
+                "rubric": rubric
+            })
+            st.session_state['feedback'] = feedback
+            if feedback is None:
+                st.warning("Feedback generation failed or returned no results.")
+
+
 
