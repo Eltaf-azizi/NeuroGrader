@@ -58,3 +58,20 @@ class GradeRequest(BaseRequest):
     text: str
     rubric: str
     model: Optional[str] = "gpt-3.5-turbo"
+
+
+class ErrorResponse(BaseModel):
+    detail: str
+
+
+class GradeResponse(BaseModel):
+    grade: str
+
+
+class PlagiarismResult(BaseModel):
+    url: str
+    similarity: int
+
+
+class PlagiarismResponse(BaseModel):
+    results: List[PlagiarismResult]
