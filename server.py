@@ -43,3 +43,18 @@ class BaseRequest(BaseModel):
     openai_api_key: Optional[str] = None
     google_api_key: Optional[str] = None
     search_engine_id: Optional[str] = None
+
+
+class ParseFileRequest(BaseRequest):
+    file_path: str
+
+
+class PlagiarismRequest(BaseRequest):
+    text: str
+    similarity_threshold: Optional[int] = 40
+
+
+class GradeRequest(BaseRequest):
+    text: str
+    rubric: str
+    model: Optional[str] = "gpt-3.5-turbo"
