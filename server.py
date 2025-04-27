@@ -28,3 +28,18 @@ class Settings:
         # Log configuration status (but don't expose actual keys)
         logger.info(f"OPENAI_API_KEY  set: {'Yes' if self.openai_api_key else 'No'}")
         logger.info(f"GOOGLE_API_KEY set: {'Yes' if self.google_api_key else 'No'}")
+        logger.info(f"SEARCH_ENGINE_ID set: {'Yes' if self.search_engine_id else 'No'}")
+        logger.info(f"Python version: {sys.version}")
+
+
+
+@lru_cache()
+def get_settings():
+    return Settings()
+
+
+# ==== Models ====
+class BaseRequest(BaseModel):
+    openai_api_key: Optional[str] = None
+    google_api_key: Optional[str] = None
+    search_engine_id: Optional[str] = None
