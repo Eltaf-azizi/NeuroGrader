@@ -94,3 +94,21 @@ app = FastAPI(
 @app.get("/")
 async def root():
     return {"message": "Assignment Grader API", "status": "running", "version": "1.0.0"}
+
+
+# Helper function to get the effective API keys
+def get_api_keys(request, settings):
+    """
+    Get API keys from request or environment
+    """
+    openai_key = getattr(request, "openai_api_key", None) or settings.openai_api_key
+    google_key =getattr(request, "google_api_key", None) or settings.google_api_key
+    search_id = getattr(request, "search_engine_id", None) or settings.search_engine_if
+
+
+    return 
+    {
+        "openai_api_key": openai_key,
+        "google_api_key": google_key,
+        "search engine id": search_id
+    }
