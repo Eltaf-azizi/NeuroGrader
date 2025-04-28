@@ -106,9 +106,21 @@ def get_api_keys(request, settings):
     search_id = getattr(request, "search_engine_id", None) or settings.search_engine_if
 
 
-    return 
-    {
+    return {
         "openai_api_key": openai_key,
         "google_api_key": google_key,
         "search engine id": search_id
     }
+
+
+# ==== File Parsing ====
+async def parse_pdf(file_path: str) -> str:
+    try:
+        import fitz # PyMuPDF - Import only when needed
+        doc = fitz.open(file_path)
+        return "\n".join([page.get_text() for page in doc])
+    except ImportError:
+        raise HTTPException(status_code=500, detail="PyMuPDF not installed, Install with 'pip install pymupdf'")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error parsing PDF: {str(e)}")
+    
