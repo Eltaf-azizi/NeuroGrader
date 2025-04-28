@@ -124,3 +124,19 @@ async def parse_pdf(file_path: str) -> str:
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error parsing PDF: {str(e)}")
     
+
+
+async def parse_docx(file_path: str) -> str:
+    try: 
+        from docx import Document # Import only when needed
+        doc = Document(file_path)
+        return "\n".join([p.text for p in doc.paragraphs])
+    except ImportError:
+        raise HTTPException(status_code=500, detail="python-docx not installed. Install with 'pip install python-docx'")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error parsing DOCX: {str(e)}")
+    
+
+
+@app.post("/tools/parse_file", response_model=str)
+
