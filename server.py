@@ -75,3 +75,22 @@ class PlagiarismResult(BaseModel):
 
 class PlagiarismResponse(BaseModel):
     results: List[PlagiarismResult]
+
+
+
+
+# ==== 🚀 FastAPI Setup ====
+app = FastAPI(
+    title = "Assignment Grader API",
+    description = "API for parsing, grading, and checking plagiarism in academic assignments",
+    version = "1.0.0",
+    responses = {
+        500: {"model": ErrorResponse}
+    }
+)
+
+
+
+@app.get("/")
+async def root():
+    return {"message": "Assignment Grader API", "status": "running", "version": "1.0.0"}
