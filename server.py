@@ -139,4 +139,21 @@ async def parse_docx(file_path: str) -> str:
 
 
 @app.post("/tools/parse_file", response_model=str)
+async def parse_file(request: ParseFileRequest, settings: Settings = Depends(get_settings)):
+    try:
+        file_path = request.file_path
 
+        if not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail=f"File not found: {file_path}")
+        
+        ext = os.path.splitext(file_path)[-1].lower()
+
+        if ext == ".pdf":
+            return await parse_pdf(file_path)
+        elif ext == ".docx":
+            return await parse_docx(file_path)
+        else:
+            raise HTTPException(status_code=400, detail=f"Unsupported file format: {ext}")
+    
+    except HTTPException:
+        raise
