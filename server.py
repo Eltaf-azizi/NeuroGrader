@@ -157,3 +157,23 @@ async def parse_file(request: ParseFileRequest, settings: Settings = Depends(get
     
     except HTTPException:
         raise
+    except Exception as e:
+        logger.error(f"Error parsing file: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error parsing file: {str(e)}")
+    
+
+
+
+# ==== Plagiarism Checking ====
+@app.post("/tools/check_plagiarism", response_model=PlagiarismResponse)
+async def check_plagiarism(request: PlagiarismRequest, settings: Settings = Depends(get_settings)):
+    try:
+        # Get API Keys
+        keys = get_api_keys(request, settings)
+
+        if not keys["google_api_key"] or not keys["search_engine_id"]:
+            raise HTTPException(status_code=500, detail="Google API key or Search Engine ID not configured")
+        
+        from fuzzywuzzy import fuzz # Import only when needed
+
+        text = request.text
