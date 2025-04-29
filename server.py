@@ -177,3 +177,23 @@ async def check_plagiarism(request: PlagiarismRequest, settings: Settings = Depe
         from fuzzywuzzy import fuzz # Import only when needed
 
         text = request.text
+        if not text.strip():
+            raise HTTPException(status_code=400, detail="Text cannot be empty")
+        
+
+        # Take first 300 chars for the search query
+        query = text [:300].replace("\n", " ").strip()
+
+
+        url = f"https://www.googleapis.com/customsearch/v1"
+        params = {
+            "q": query,
+            "key": keys["google_api_key"],
+            "cx": keys["search_engine_id"]
+        }
+
+
+        response = requests.get(url, params=params, timeout=10)
+        if response.status_code != 200:
+            raise HTTPException(status_code=response.status_code,
+                                detail=f"Google API error: {response.text}")
