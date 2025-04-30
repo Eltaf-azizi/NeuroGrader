@@ -235,5 +235,22 @@ async def check_plagiarism(request: PlagiarismRequest, settings: Settings = Depe
 async def call_openai_api(prompt: str, api_key: str, model: str = "gpt-3.5-turbo") -> str:
     if not api_key:
         raise HTTPException(status_code=500, detail="OpenAI API key not configured")
+    
+
+
+    try:
+        # Create a client with the specified API key
+        client = openai.OpenAI(api_key=api_key)
+
+        response = client.chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=1024,
+            temperature=0.5,
+        )
+        return response.choice[0].message.content.strip()
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"OpenAI API error: {str(e)}")
 
 
