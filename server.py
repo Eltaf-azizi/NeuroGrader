@@ -254,3 +254,16 @@ async def call_openai_api(prompt: str, api_key: str, model: str = "gpt-3.5-turbo
         raise HTTPException(status_code=500, detail=f"OpenAI API error: {str(e)}")
 
 
+@app.post("/tools/grade_text", response_model=GradeResponse)
+async def grade_text(request: GradeRequest, settings: Settings = Depends(get_settings)):
+    try:
+        text = request.text
+        rubric = request.rubric
+        model = request.model or "gpt-3.5-turbo"
+
+        # Get API keys
+        keys = get_api_keys(request, settings)
+
+        if not text.strip() or not rubric.strip():
+            raise HTTPException(status_code=400, detail="Text and rubric cannot be empty")
+
