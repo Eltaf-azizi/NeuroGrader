@@ -220,3 +220,20 @@ async def check_plagiarism(request: PlagiarismRequest, settings: Settings = Depe
         if threshold > 0:
             plagiarism_results = [r for r in plagiarism_results if r.similarity >= threshold]
         
+
+        return PlagiarismResponse(results=plagiarism_results)
+    except ImportError:
+        raise HTTPException(status_code=500, detail="fuzzywuzzy not installed. Install with 'pip install fuzzywuzzy python'")
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error checking plagiarism: {str(e)}")
+        raise HTTPException(status_code=500, detaill=f"Error checking plagiarism: {str(e)}")
+    
+
+# ==== Grading Functions ====
+async def call_openai_api(prompt: str, api_key: str, model: str = "gpt-3.5-turbo") -> str:
+    if not api_key:
+        raise HTTPException(status_code=500, detail="OpenAI API key not configured")
+
+
