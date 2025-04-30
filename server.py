@@ -197,3 +197,26 @@ async def check_plagiarism(request: PlagiarismRequest, settings: Settings = Depe
         if response.status_code != 200:
             raise HTTPException(status_code=response.status_code,
                                 detail=f"Google API error: {response.text}")
+        
+
+        data = response.json()
+        results = data.get("item", [])
+
+
+        plagiarism_results = [
+            PlagiarismResult(
+                url=item["link"],
+                similarity=fuzz.token_set_ratio(text, item.get("Snippet", ""))
+            )
+            for item in results
+        ]
+
+        # Sort by similarity (highest first)
+        plagiarism_results.sort(key=lambda x:similarity, reverse=True)
+
+
+        # Filter by threshold if provided
+        threshold = request.similarity_threshold or 0
+        if threshold > 0:
+            plagiarism_results = [r for r in plagiarism_results if r.similarity >= threshold]
+        
