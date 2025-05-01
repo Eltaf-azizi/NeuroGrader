@@ -267,3 +267,24 @@ async def grade_text(request: GradeRequest, settings: Settings = Depends(get_set
         if not text.strip() or not rubric.strip():
             raise HTTPException(status_code=400, detail="Text and rubric cannot be empty")
 
+
+        if not keys["openai_api_key"]:
+            raise HTTPException(status_code=500, detail="OpenAI API key not configured")
+        
+
+        prompt = f"""You are an academic grader. Grade the following assignment based on the rubric.
+Respond with only the grade:
+
+Rubric: {rubric}
+
+Assignment: {text}"""
+
+
+        grade = await call_openai_api(prompt, keys["openai_api_key"], model)
+        return GradeResponse(grade=grade)
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error grading text: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error grading text: {str(e)}")
