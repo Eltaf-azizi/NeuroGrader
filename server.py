@@ -288,3 +288,32 @@ Assignment: {text}"""
     except Exception as e:
         logger.error(f"Error grading text: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error grading text: {str(e)}")
+
+
+
+@app.post("/tools/generate_feedback", response_model=str)
+async def generate_feedback(request: GradeRequest, settings: Settings = Depends(get_settings)):
+    try:
+        text = request.text
+        rubric = request.rubric
+        model = request.model or "gpt-3.5-turbo"
+
+
+        # Get API keys
+        keys = get_api_keys(request, settings)
+
+
+        if not text.strip() or not rubric.strip():
+            raise HTTPException(status_code=500, detail="Text and rubric cannot be empty")
+        
+
+        if not keys["openai_api_key"]:
+            raise HTTPException(status_code=500, detail="OpenAI API key not configured")
+        
+        prompt = f"""You are a teacher. Give constructive feedback to be a student based on this rubric and assignment.
+
+    rubric: {rubric}
+    
+    assignment: {text}
+
+    write your feedback below: """
