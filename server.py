@@ -317,3 +317,21 @@ async def generate_feedback(request: GradeRequest, settings: Settings = Depends(
     assignment: {text}
 
     write your feedback below: """
+        
+
+        feedback = await call_openai_api(prompt, keys["openai_api_key"], model)
+        return feedback
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error generating feedback: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error generating feedback: {str(e)}")
+    
+
+
+
+# ==== Support for alternative URL formats ====
+@app.post("/tool{tool_name}")
+async def tool_endpoint_singular(tool_name: str, request: Request, setting: Settings = Depends(get_settings)):
+    
