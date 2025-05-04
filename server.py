@@ -353,4 +353,20 @@ async def tool_endpoint_singular(tool_name: str, request: Request, settings: Set
             req = GradeRequest(**body)
             return await generate_feedback(req, settings)
         
+        else:
+            raise HTTPException(status_code=404, detail=f"Tool {tool_name} not found")
         
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error in tool endpoint: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+    
+
+
+# Support for /api/tools/endpoint
+@app.post("/api/tools/{tool_name}")
+async def tool_endpoint_api(tool_name: str, request: Request, settings: Settings = Depends(get_settings)):
+    return await tool_endpoint_singular(tool_name, request, settings)
+
+
