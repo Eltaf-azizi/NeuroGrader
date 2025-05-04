@@ -370,3 +370,15 @@ async def tool_endpoint_api(tool_name: str, request: Request, settings: Settings
     return await tool_endpoint_singular(tool_name, request, settings)
 
 
+# ==== Run with uvicorn ====
+if __name__ == "__main__":
+    logger.info("🚀 Assignment Grader API running at http://127.0.0.1:8088")
+    logger.info("📚 Available tools: ")
+    logger.info("    - /tools/parse_file")
+    logger.info("    - /tools/check_plagiarism")
+    logger.info("    - /tools/grade_text")
+    logger.info("    - /tools/generate_feedback")
+    logger.info("    - Alternate formats also supported: /tool/... and /api/tools/...")
+
+
+    uvicorn run(app, host="0.0.0.0", port=8088)
