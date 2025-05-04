@@ -333,5 +333,24 @@ async def generate_feedback(request: GradeRequest, settings: Settings = Depends(
 
 # ==== Support for alternative URL formats ====
 @app.post("/tool{tool_name}")
-async def tool_endpoint_singular(tool_name: str, request: Request, setting: Settings = Depends(get_settings)):
-    
+async def tool_endpoint_singular(tool_name: str, request: Request, settings: Settings = Depends(get_settings)):
+    try: 
+        body = await request.json()
+
+        if tool_name == "parse_file":
+            req = ParseFileRequest(**body)
+            return await parse_file(req, settings)
+        
+        elif tool_name == "check_plagiarism":
+            req = PlagiarismRequest(**body)
+            return await check_plagiarism(req, settings)
+        
+        elif tool_name == "grade_text":
+            req = GradeRequest(**body)
+            return await grade_text(req, settings)
+        
+        elif tool_name == "generate_feedback":
+            req = GradeRequest(**body)
+            return await generate_feedback(req, settings)
+        
+        
