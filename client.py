@@ -60,6 +60,29 @@ def call_api_tool(tool_name, data):
         key = log_data["openai_api_key"]
         log_data["openai_api_key"] = f"{key[:5]}...{key[-5:]}"
 
+    if "google_api_key" in log_data:
+        key = log_data["google_api_key"]
+        log_data["google_api_key"] = f"{key[:5]}...{key[-5:]}"
+
+
+    logger.info(f"Calling {tool_name} with data: {json.dumps(log_data)}")
+
+
+
+    try:
+        response = requests.post(
+            url,
+            json=request_data,
+            headers={"Content-Type": "application/json"},
+            timeout=60
+        )
+
+        if response.status_code != 200:
+            error_message = f"Error {response.status_code} from server: {response.text}"
+            logger.error(error_message)
+            st.error(error_message)
+            return None
+
 
 
 st.set_page_config(
