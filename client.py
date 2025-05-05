@@ -39,7 +39,26 @@ def call_api_tool(tool_name, data):
     """
     Call a tool on the API server with hardcoded API keys.
     """
-    
+    url = f"{st.session_state['api_server_url']}/tools/{tool_name}"
+
+
+    # Create a copy of the data
+    request_data = data.copy()
+
+
+
+    # Always add API keys to EVERY request
+    request_data["openai_api_key"] = OPENAI_API_KEY
+    request_data["google_api_key"] = GOOGLE_API_KEY
+    request_data["search_engine_id"] = GOOGLE_CX
+
+
+
+    # log the API call (but hide most of the keys)
+    log_data = request_data.copy()
+    if "openai_api_key" in log_data:
+        key = log_data["openai_api_key"]
+        log_data["openai_api_key"] = f"{key[:5]}...{key[-5:]}"
 
 
 
