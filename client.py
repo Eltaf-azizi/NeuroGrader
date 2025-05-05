@@ -1,9 +1,28 @@
-from numpy import delete
 import streamlit as st
+import requests
 import json
 import os
 import tempfile
 import time
+import logging
+
+
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+
+
+# Initialize session state variables
+if 'api_server_url' not in st.session_state:
+    st.session_state['api_server_url'] = "http://localhost:8088"
+
+
+
+# Always use our hardcoded keys - don't get them from session_state
+st.session_state['openai_api_key'] = OPENAI_API_KEY
+
 
 
 st.set_page_config(

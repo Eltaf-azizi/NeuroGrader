@@ -381,4 +381,4 @@ if __name__ == "__main__":
     logger.info("    - Alternate formats also supported: /tool/... and /api/tools/...")
 
 
-    uvicorn run(app, host="0.0.0.0", port=8088)
+    uvicorn.run(app, host="0.0.0.0", port=8088)
