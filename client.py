@@ -14,6 +14,13 @@ logger = logging.getLogger(__name__)
 
 
 
+# HARDCODED API KEYS - DO NOT SHARE THIS FILE
+OPENAI_API_KEY = ""
+GOOGLE_API_KEY = ""
+GOOGLE_CX = ""
+
+
+
 # Initialize session state variables
 if 'api_server_url' not in st.session_state:
     st.session_state['api_server_url'] = "http://localhost:8088"
@@ -22,6 +29,17 @@ if 'api_server_url' not in st.session_state:
 
 # Always use our hardcoded keys - don't get them from session_state
 st.session_state['openai_api_key'] = OPENAI_API_KEY
+st.session_state['google_api_key'] = GOOGLE_API_KEY
+st.session_state['google_cx'] = GOOGLE_CX
+
+
+
+# Function to call API tools
+def call_api_tool(tool_name, data):
+    """
+    Call a tool on the API server with hardcoded API keys.
+    """
+    
 
 
 
