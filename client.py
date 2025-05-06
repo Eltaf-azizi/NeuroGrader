@@ -198,17 +198,34 @@ with tab2:
     st.header("Gradign configuration")
 
 
+
+    # Check if document is loaded
+    if 'document_text' not in st.session_state:
+        st.warning(" Please upload and process a document first.")
+
+    else:
+        st.success(f" Document loaded: {st.session_state.get('file_name', 'Unknown')}")
+
+
     # Rubic input
     st.subheader("Grading Rubric")
-    rubric = st.text_area(
-        "Enter your grading rubric here: ",
-        height=200,
-        help =  "Specify the criteria on which the assignment should be graded",
-        value = """Content (40%): The assignment should demonstrate a thorough understanding of the topic.
-                Structure (20%): The assignment should be well-organized with a clear introduction, body, and conclusion.
-                Analysis (30%): The assignment should include critical analusis backed by evidence.
-                Grammar & Style (10%): The assignment should be free of grammatical errors and use appropriate academic language."""
-    )
+
+
+    # Default rubric templates
+    rubric_templates = {
+        "Default Academic": """Content (40%): The assignment should demonstrate a through understanding of the topic.
+        Structure (20%): The assignment should be well-organized with a clear introduction, body, and conclusion.
+        Analysis (30%): The assignment should include critical analysis backed by evidence.
+        Grammar & Style (10%): The assignment should be free of grammatical errors and use appropriate academic language.""",
+        "Technical Report": """Accuracy (35%): Technical details should be accurate and well-explained.
+        Methodology (25%): The methodology should be appropriate and clearly described.
+        Results (25%): Results should be presented clearly with appropriate visualizations.
+        Conclusions (15%): Conclusions should be supported by the data and analysis.""",
+        "Creative Writting": """Originally (30%): The work should show creative and oroginal thinking.
+        Structure (20%): The narrative structure should be effective and appropriate.
+        Character/Scene Development (30%): Characters or scenes should be well_developed.
+        Language & Style (20%): The language should be engaging, varied, and appropriate.""",
+    }
 
 
 
