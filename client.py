@@ -136,6 +136,11 @@ with tab1:
 
 
     if uploaded_file is not None:
+        # Display file information
+        file_size = ln(uploaded_file.getvalue()) / 1024 # KB
+        st.info(f"File: {uploaded_file.name} ({file_size:.1f} KB)")
+
+
         #save the uploaded file temporarily
         with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(uploaded_file.name)[1]) as tmp_file:
             tmp_file.write(uploaded_file.getvalue())
@@ -149,7 +154,7 @@ with tab1:
         # Parse the document
         if st.button("Process Document"):
             with st.spinner("Processing document..."):
-                result = call_mcp_tool("parse_file", {"file_path": file_path})
+                result = call_api_tool("parse_file", {"file_path": file_path})
 
 
                 if result is None:
@@ -158,13 +163,22 @@ with tab1:
                 elif isinstance(result, str):
                     # If result is a string, it's either the document text or an error 
                     st.session_state['document_text'] = result
+                    word_count = len(result.split())
                     st.success(f"Document processed successfuly!")
-                    st.info(f"Document contains {len(result.split())} words.")
+                    st.info(f"Document contains {word_count} words.")
 
 
-                    # Show a preview
+                    # Show a preview with the word count
                     with st.expander("Document Preview"):
-                        st.text(result[:1000] + ("..." if len(result) > 1000 else "")) 
+                        preview = result[:1000] + ("..." if len(result) > 1000 else "")
+                        st.text_area("Preview", value=preview, height=300, disabled=True)
+
+                    
+
+                    # If document is very long, show a warning
+                    if word_count > 5000:
+                        st.warning(f"Long document detected ({word_count} words). Processing might take longer.")
+
 
                 else:
                     # If result is a dict, might be error information
