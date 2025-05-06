@@ -260,7 +260,25 @@ with tab2:
         if check_plagiarism:
             similarity_threshold = st.slider(
                 "Similarity threshold (%)",
+                min_value=10,
+                max_value = 90,
+                value = 40,
+                help = "Minimum similarity percentage to flag potential plagiarism"
             )
+
+
+    
+    with col2:
+        grade_model = st.selectbox(
+            "AI Model for Grading",
+            ["gpt-3.5-turbo", "gpt-4"],
+            help = "Select the AI model to use for grading (affects accuracy and cost)"
+        )
+
+    
+    # Grade Assignment button
+    if 'document_text' in st.session_state:
+        if st.button("Grade Assignment", type="primary"):
 
 
 
