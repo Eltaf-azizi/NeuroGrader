@@ -244,8 +244,24 @@ with tab2:
 
     # Rubric text area
     rubric = st.text_area(
-        
+        "Enter your grading rubric here: ",
+        height=200,
+        help="Specify the criteria on which the assignment should be graded",
+        value = default_value
     )
+
+
+    # Plagiarism check and grading options
+    col1, col2 = st.columns(2)
+    with col1:
+        check_plagiarism = st.checkbox("Check for plagiarism", value=True)
+
+
+        if check_plagiarism:
+            similarity_threshold = st.slider(
+                "Similarity threshold (%)",
+            )
+
 
 
 
