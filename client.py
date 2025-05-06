@@ -229,6 +229,26 @@ with tab2:
 
 
 
+    # Template selector
+    template_choice = st.selectbox(
+        "Select a template or create your own:",
+        ["Default Academic", "Technical Report", "Creative Writting", "Custom"]
+    )
+
+
+
+    # Get default value based on selection
+    default_value = rubric_templates.get(template_choice, "") if template_choice != "Custom" else ""
+
+
+
+    # Rubric text area
+    rubric = st.text_area(
+        
+    )
+
+
+
     # Plagiarism check option
     check_plagiarism_option = st.checkbox("Check for plagiarism", value=True)
 
