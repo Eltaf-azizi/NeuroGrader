@@ -201,10 +201,10 @@ with tab2:
 
     # Check if document is loaded
     if 'document_text' not in st.session_state:
-        st.warning(" Please upload and process a document first.")
+        st.warning("⚠️ Please upload and process a document first.")
 
     else:
-        st.success(f" Document loaded: {st.session_state.get('file_name', 'Unknown')}")
+        st.success(f"✅ Document loaded: {st.session_state.get('file_name', 'Unknown')}")
 
 
     # Rubic input
@@ -279,6 +279,22 @@ with tab2:
     # Grade Assignment button
     if 'document_text' in st.session_state:
         if st.button("Grade Assignment", type="primary"):
+            # Store rubric in session
+            st.session_state['rubric'] = rubric
+
+
+            with st.spinner("Grading in process..."):
+                progress_bar = st.pregress(0)
+
+
+                # Optional plagiarism check
+                if check_plagiarism:
+                    st.info("Checking for Plagiarism...")
+
+                    plagiarism_data = {
+                        "text": st.session_state['document_text'],
+                        "similarity_threshold": similarity_threshold if 'similarity_threshold' in locals() else 40
+                    }
 
 
 
