@@ -82,6 +82,21 @@ def call_api_tool(tool_name, data):
             logger.error(error_message)
             st.error(error_message)
             return None
+        
+
+
+        try:
+            return response.json()
+        except json.JSONDecodeError:
+            return response.text
+        
+
+    
+    except Exception as e:
+        error_message = f"Error connecting to server: {str(e)}"
+        logger.error(error_message)
+        st.error(error_message)
+        return None
 
 
 
