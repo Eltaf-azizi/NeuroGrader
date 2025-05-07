@@ -296,6 +296,26 @@ with tab2:
                         "similarity_threshold": similarity_threshold if 'similarity_threshold' in locals() else 40
                     }
 
+                    plagiarism_results = call_api_tool("check_plagiarism", plagiarism_data)
+                    st.session_state['plagiarism_results'] = plagiarism_results
+
+                    progress_bar.progress(33)
+
+                else:
+                    progress_bar.progress(33)
+
+
+
+                # Generate grade
+                st.info("Generating grade...")
+
+
+                grade_data = {
+                    "text": st.session_state['document_text'],
+                    "rubric": rubric,
+                    "model": grade_model if 'grade_model' in locals() else "gpt-3.5-turbo"
+                }
+
 
 
 
