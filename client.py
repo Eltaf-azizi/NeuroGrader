@@ -366,7 +366,24 @@ with tab3:
         # Display grade in the first column
         with col1:
             if 'grade_results' in st.session_state and st.session_state['grade_results'] is not None:
+                if isinstance(st.session_state['grade_results'], dict):
+                    grade = st.session_state['grade_results'].get('grade', 'Not available')
+
+                else:
+                    # If it's not a dict, just display the raw result
+                    grade = str(st.session_state['grade_results'])
+
+
                 
+                # Display grade in large format
+                st.markdown(f"## Grade: {grade}")
+
+
+                # Generate a visual indicator based on the grade
+                try:
+                    # Try to convert to numeric format if it's a percentage or out of 100
+                    if '%' in grade:
+                        
 
 
         # Display grade
