@@ -335,58 +335,18 @@ with tab2:
                 }
 
                 feedback = call_api_tool("generate_feedback", feedback_data)
+                st.session_state['feedback'] = feedback
 
 
+                progress_bar.progress(100)
 
 
-    # Plagiarism check option
-    check_plagiarism_option = st.checkbox("Check for plagiarism", value=True)
+                if grade_results is not None or feedback is not None:
+                    st.success("Grading completed!")
+                    st.balloons()
 
-    if 'document_text' in st.session_state and st.button("Grade Assignment"):
-        # Store rubric in session
-        st.session_state['rubric'] = rubric
-
-
-        with st.spinner("Grading for progress..."):
-            # Optional plagiarism check
-            if check_plagiarism_option:
-                st.info("Checking for plagiarism...")
-                plagiarism_results = call_mcp_tool("check_plagiarism", {"text": st.session_state['document_text']})
-                st.session_state['plagiarism_results'] = plagiarism_results
-                if plagiarism_results is None:
-                    st.warning("Plagiarism check failed or returned no results.")
-
-
-            
-            #Generate grade
-            st.info("Generating grade...")
-            grade_results = call_mcp_tool("grade_text", {
-                "text": st.session_state['document_text'],
-                "rubric": rubric
-            })
-            st.session_state['grade_results'] = grade_results
-
-            if grade_results is None:
-                st.warning("Grade generation failed or returned no results.")
-
-            
-            # Generate feedback
-            st.info("Generating feedback...")
-            feedback = call_mcp_tool("generating_feedback", {
-                "text": st.session_state['document_text'],
-                "rubric": rubric
-            })
-            st.session_state['feedback'] = feedback
-            if feedback is None:
-                st.warning("Feedback generation failed or returned no results.")
-
-
-            if grade_results is not None or feedback is not None:
-                st.success("Grading completed!")
-                st.balloons()
-            
-            else:
-                st.error("Grading process ecountered errors. Please check your server connection and API settings.")
+                else:
+                    st.error("Grading process ecountered errors. Please check your server connection and API settings.")
 
 
 
@@ -397,6 +357,16 @@ with tab3:
 
     if all(k in st.session_state for k in ['file_name', 'grade_results', 'feedback']):
         st.subheader(f"Results for: {st.session_state['file_name']}")
+
+
+        # Create columns for grade display
+        col1, col2 = st.columns([1, 3])
+
+
+        # Display grade in the first column
+        with col1:
+            if 'grade_results' in st.session_state and st.session_state['grade_results'] is not None:
+                
 
 
         # Display grade
