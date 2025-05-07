@@ -403,6 +403,25 @@ with tab3:
                         numeric_grade = grade_values.get(grade.upper(), 0)
                         st.progress(numeric_grade)
 
+                except:
+                    # If we can't convert, just skip the progress bar
+                    pass
+            else:
+                st.warning("Grade information is not available.")
+                st.metric("grade", "Not available")
+            
+        
+
+        # Display feedback in the second column
+        with col2:
+            if 'feedback' in st.session_state and s.session_state['feedback'] is not None:
+                st.subheader("Feedback")
+                st.markdown(st.session_state['feedback'])
+            else:
+                st.warning("Feedback is not available.")
+
+        
+
 
         # Display grade
         if 'grade_results' in st.session_state:
