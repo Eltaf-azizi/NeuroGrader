@@ -317,6 +317,26 @@ with tab2:
                 }
 
 
+                grade_results = call_api_tool("grade_text", grade_data)
+                st.session_state['grade_results'] = grade_results
+
+                progress_bar.progress(66)
+
+
+
+                # Generate feedback
+                st.info("Generating detailed feedback...")
+
+
+                feedback_data = {
+                    "text": st.session_state['document_text'],
+                    "rubric": rubric,
+                    "model": grade_model if 'grade_model' in locals() else "gpt-3.5-turbo"
+                }
+
+                feedback = call_api_tool("generate_feedback", feedback_data)
+
+
 
 
     # Plagiarism check option
