@@ -383,7 +383,25 @@ with tab3:
                 try:
                     # Try to convert to numeric format if it's a percentage or out of 100
                     if '%' in grade:
-                        
+                        numeric_grade = float(grade.replace('%', ''))
+                        st.progress(numeric_grade / 100)
+
+                    elif '/' in grade:
+                        parts = grade.split('/')
+                        numeric_grade = float(parts[0]) / float(parts[1])
+                        st.progress(numeric_grade)
+
+                    elif grade.upper() in ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F']:
+                        grade_values = {
+                            'A+': 0.97, 'A':0.94, 'A-':0.90,
+                            'B+': 0.87, 'B': 0.84, 'B-': 0.80,
+                            'C+': 0.77, 'C': 0.74, 'C-': 0.70,
+                            'D+': 0.67, 'D': 0.64, 'D-': 0.60,
+                            'F': 0.50
+                        }
+
+                        numeric_grade = grade_values.get(grade.upper(), 0)
+                        st.progress(numeric_grade)
 
 
         # Display grade
