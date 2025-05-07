@@ -419,8 +419,27 @@ with tab3:
                 st.markdown(st.session_state['feedback'])
             else:
                 st.warning("Feedback is not available.")
-
         
+
+
+        # Display plagiarism results if available
+        if 'plagiarism_results' in st.session_state and st.session_state['plagiarism_results']:
+            st.subheader("Plagiarism Check")
+            results = st.session_state['plagiarism_results']
+
+
+            if results is None:
+                st.warning("Plagiarism check results are not available.")
+
+            elif isinstance(results, dict) and 'error' in results:
+                st.error(f"Plagiarism check error: {results['error']}")
+            
+            elif isinstance(results, dict) and 'results' in results:
+                # New API format
+                st.markdown("**Similarity matches found: **")
+                for item in results['results']:
+                    url = item.get('url', '')
+                    similarity = item.get('similarity', 0)
 
 
         # Display grade
