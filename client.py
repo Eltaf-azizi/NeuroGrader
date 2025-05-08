@@ -461,11 +461,27 @@ with tab3:
 
                         elif similarity > 40:
                             st.info("Moderate similarity ({similarity}%): [{url}]({url})")
+                        
+                        else:
+                            st.json(results) # Display raw results if format is unknown
         
 
 
-
         # Export options
+        st.subheader("Export Options")
+        col1, col2 = st.columns(2)
+
+
+        with col1:
+            if st.button("Export to PDF"):
+                st.info("Creating PDF report...")
+                # This is where you would implement PDF export
+                st.download_button(
+                    
+                )
+
+
+
         st.subheader("Export Options")
         if st.button("Export to PDF"):
             st.info("PDF export functionality would go here")
