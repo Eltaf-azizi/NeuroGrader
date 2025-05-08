@@ -477,18 +477,29 @@ with tab3:
                 st.info("Creating PDF report...")
                 # This is where you would implement PDF export
                 st.download_button(
-                    
+                    label="Download PDF",
+                    data=b"Placeholder for PDF content", # Replace with actual PDF data
+                    file_name=f"grading_report_{st.session_state['file_name']}.pdf",
+                    mine="application/pdf",
+                    disabled=True # Enable when implemented
                 )
+                st.info("PDF export functionality would go here")
 
-
-
-        st.subheader("Export Options")
-        if st.button("Export to PDF"):
-            st.info("PDF export functionality would go here")
-
-
-        if st.button("Save to Database"):
-            st.info("Database save functionality would go here")
+        
+        with col2:
+            if st.button("Save to Database"):
+                st.info("Saving to database...")
+                # This is where you would implement database save
+                time.sleep(1)
+                st.success("Record saved! (This is a placeholder)")
+                st.info("Database save functionality would go here")
+    
 
     else:
         st.info("No grading results available. Please upload and grab an assignment first.")
+
+
+
+# Add footer
+st.markdown("---")
+st.markdown("Assignmnet Grader | Powered by FastAPI and OpenAI")
