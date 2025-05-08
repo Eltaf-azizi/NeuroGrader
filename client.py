@@ -442,49 +442,28 @@ with tab3:
                     similarity = item.get('similarity', 0)
 
 
-        # Display grade
-        if 'grade_results' in st.session_state:
-            if st.session_state['grade_results'] is not None:
-                grade = st.session_state['grade_results'].get('grade', 'Not Available')
-                st.metric("Grade", grade)
-
-            else:
-                st.warning("Grade information not available. There might have been an error during grading")
-                st.metric("Grade", "Not available")
-
-
-        
-        # Display feedback
-        if 'feedback' in st.session_state:
-            if st.session_state['feedback'] is not None:
-                st.subheader("Feedback")
-                st.markdown(st.session_state['feedback'])
-            else:
-                st.st.warning("Feedback is not available. There might have been an error generating feedback.")
-
-        
-
-        # Display plagiarism results if available
-        if 'plagiarism_results' in st.session_state and st.session_state['plagiarism_results']:
-            st.subheader("Plagiarism Check")
-            results = st.session_state['plagiarism_results']
-
-            if results is None:
-                st.warning("Plagiarism check results are not available. There might have been an error during the checking")
-            elif 'error' in results:
-                st.error(f"Plagiarism check error: {results['error']}")
-            
-            else:
-                st.markdown("**Similarity matches found: **")
-                for url, similarity in results.items():
                     if similarity > 70:
-                        st.warning(f"High Similarity ({similarity}%): [{url}]({url})")
+                        st.warning(f"High similarity ({similarity}%): [{url}]({url})")
+
                     elif similarity > 40:
                         st.info(f"Moderate Similarity ({similarity}%): [{url}]({url})")
+
                     else:
                         st.success(f"Low Similarity ({similarity}%): [{url}]({url})")
+            
+            else:
+                # Old API format
+                st.markdown("**Similarity matches found: **")
+                if isinstance(results, dict):
+                    for url, similarity in results.items():
+                        if similarity > 70:
+                            st.warning(f"High similarity ({similarity}%): [{url}]({url})")
 
+                        elif similarity > 40:
+                            st.info("Moderate similarity ({similarity}%): [{url}]({url})")
         
+
+
 
         # Export options
         st.subheader("Export Options")
