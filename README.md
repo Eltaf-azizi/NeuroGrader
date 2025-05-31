@@ -21,3 +21,34 @@ An advanced AI-powered system for automated assignment grading, combining Large 
 | Plagiarism	  | Turnitin API / DiffLib / NLP-based similarity
 | Database	    |PostgreSQL / Firebase
 | Frontend	    | Streamlit (Teacher Dashboard)
+
+
+## 🚀 Installation
+### Prerequisites
+
+ - Python 3.10+
+ - OpenAI API Key (or Hugging Face token)
+ - (Optional) Turnitin API Key
+
+### Setup
+1.  Clone the repo:
+
+```bash
+git clone https://github.com/yourusername/ai-assignment-grader.git  
+cd ai-assignment-grader
+``` 
+2.  Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+3.  Configure `.env`:
+```env
+OPENAI_API_KEY="your_key"  
+MCP_THRESHOLD=0.75  # Model Context Protocol confidence threshold  
+PLAGIARISM_MODE="local"  # "turnitin" or "local"
+```
+4.  Run the API:
+```bash
+uvicorn app.main:app --reload  
+```
