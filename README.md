@@ -66,3 +66,16 @@ score = grader.evaluate(submission_text, llm_assist=True)
 # Generate feedback  
 feedback = generate_feedback(submission_text, score)  
 ```
+
+### 2. Plagiarism Check
+```bash
+curl -X POST http://localhost:8000/check_plagiarism \  
+-H "Content-Type: application/json" \  
+-d '{"text": "student_submission_here", "mode": "local"}'  
+```
+
+## 🤝 How to Contribute
+
+1. Fork the repo.
+2. Add tests for new MCP rules/LLM integrations.
+3. Submit a pull request (PR) with a clear description.
