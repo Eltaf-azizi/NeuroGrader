@@ -52,3 +52,17 @@ PLAGIARISM_MODE="local"  # "turnitin" or "local"
 ```bash
 uvicorn app.main:app --reload  
 ```
+
+## 📌 Usage Examples
+### 1. Grading via MCP + LLM
+```python
+from app.mcp.rule_engine import MCPGrader  
+from app.llm.feedback import generate_feedback  
+
+# Initialize MCP with subject-specific rules  
+grader = MCPGrader(rubric="computer_science")  
+score = grader.evaluate(submission_text, llm_assist=True)  
+
+# Generate feedback  
+feedback = generate_feedback(submission_text, score)  
+```
